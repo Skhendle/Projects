@@ -2,10 +2,10 @@
 from . import db
 
 
-class User(db.Model):
+class MMSDATA(db.Model):
     """Data model"""
 
-    __tablename__ = "mms_table"
+    __tablename__ = "mms_data"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, index=False, unique=False, nullable=False)
     description = db.Column(db.String(100), index=False, unique=False, nullable=True)

@@ -6,9 +6,10 @@ from flask import make_response, redirect, render_template, request, url_for
 
 from .models import MMSDATA, db
 
+# TODO: Add route paramaters
 
 @app.route("/", methods=["GET"])
-def user_records():
+def get_pond_records():
     """Create a user via query string parameters."""
     username = request.args.get("user")
     email = request.args.get("email")
@@ -16,14 +17,14 @@ def user_records():
 
 
 @app.route("/post", methods=["GET"])
-def user_records():
+def add_pond_records():
     """Create a user via query string parameters."""
     username = request.args.get("user")
     email = request.args.get("email")
     return {'username':username,'email':email}
 
 @app.route("/rate", methods=["Post"])
-def user_records():
+def rate_pond():
     """Create a user via query string parameters."""
     username = request.args.get("user")
     email = request.args.get("email")

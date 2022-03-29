@@ -9,19 +9,25 @@ from .models import MMSDATA, db
 
 @app.route("/", methods=["GET"])
 def get_pond_records():
-    """Create a user via query string parameters."""
+    # Get all pond records available in the database
     username = request.args.get("user")
     email = request.args.get("email")
     return {'username':username,'email':email}
+
 
 
 @app.route("/pond_photo/<pond_id>", methods=["GET"])
-def get_pond_photo():
-    """Create a user via query string parameters."""
-    username = request.args.get("user")
-    email = request.args.get("email")
-    return {'username':username,'email':email}
+def get_pond_photo(pond_id:int):
+    # Return blob related to pond_id
+    try:
+        pond_id = int(pond_id)
+        return {'pond_id':pond_id}
+    except Exception as e:
+        return make_response('Invalid Request', 400)
 
+
+# upload pond condition
+# upload picture and description
 @app.route("/post", methods=["POST"])
 def add_pond_records():
     """Create a user via query string parameters."""
@@ -29,9 +35,12 @@ def add_pond_records():
     email = request.args.get("email")
     return {'username':username,'email':email}
 
-@app.route("/rate/<data_id>", methods=["GET"])
-def rate_pond(data_id):
+
+ # Post to method data == {'id':##,'rating':###}
+@app.route("/rate", methods=["POST"])
+def rate_pond():
     """Create a user via query string parameters."""
-    username = request.args.get("user")
-    email = request.args.get("email")
-    return {'username':username,'email':email, 'id':data_id}
+    data = request.data
+    print(data)
+
+    return data

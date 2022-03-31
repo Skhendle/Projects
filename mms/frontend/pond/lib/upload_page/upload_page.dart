@@ -18,12 +18,8 @@ class UploadPageWidget extends StatefulWidget {
 }
 
 class _UploadPageWidgetState extends State<UploadPageWidget> {
-  //late BlobImage blobImage;
-  // final image = NetworkImage(blobImage.url);
-
   // @override
   // void initState()  {
-  //   //blobImage = BlobImage( widget.image!.readAsBytes());
   // }
 
   // @override
@@ -31,32 +27,48 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            flex: 4,
-            child: SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: (kIsWeb)
-                  ? Image.network(widget.image!.path)
-                  : Image.file(File(widget.image!.path)),
-            )),
-        Expanded(
-            flex: 1,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.green,
-            )),
-        Expanded(
-            flex: 1,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.yellow,
-            ))
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: const Text(
+          "Upload Page",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      backgroundColor: const Color(0xCF3D77A8),
+      body: Column(
+        children: [
+          Expanded(
+              flex: 4,
+              child: Container(
+                padding: const EdgeInsetsDirectional.fromSTEB(30, 25, 30, 10),
+                width: double.infinity,
+                height: double.infinity,
+                child: (kIsWeb)
+                    ? Image.network(widget.image!.path)
+                    : Image.file(File(widget.image!.path)),
+              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.green,
+              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.yellow,
+              ))
+        ],
+      ),
     );
   }
 }

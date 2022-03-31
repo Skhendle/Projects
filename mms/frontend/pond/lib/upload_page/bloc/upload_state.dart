@@ -11,12 +11,12 @@ class UploadState extends Equatable {
   final File? image;
   final FormzStatus status;
   UploadState copyWith({
-    Name? systemRole,
+    Name? description,
     File? image,
     FormzStatus? status,
   }) {
     return UploadState(
-      description: systemRole ?? this.description,
+      description: description ?? this.description,
       status: status ?? this.status,
     );
   }
@@ -25,13 +25,13 @@ class UploadState extends Equatable {
   List<Object> get props => [description, status];
 }
 
-class SystemRoleUpdateResponse extends UploadState {
+class UploadResponse extends UploadState {
   final bool success;
   final String message;
 
-  const SystemRoleUpdateResponse(this.success, this.message) : super();
+  const UploadResponse(this.success, this.message) : super();
 }
 
-class UpdatingSystemRole extends UploadState {}
+class UploadingPond extends UploadState {}
 
 class UploadInitial extends UploadState {}

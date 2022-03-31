@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pond/responsive_view.dart';
 
 class UploadPageWidget extends StatefulWidget {

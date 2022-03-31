@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pond/upload_page.dart';
 import 'package:pond/view_ponds.dart';
 
@@ -13,6 +14,15 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  File? image;
+
+  Future takePicture() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    final imageTemp = File(image.path);
+    this.image = imageTemp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,23 +54,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                 child: ElevatedButton.icon(
                   onPressed: () async {
-                    await availableCameras()
-                        .then(
-                      (value) => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UploadPageWidget(
-                            cameras: value,
-                          ),
-                        ),
-                      ),
-                    )
-                        .catchError((onError) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Center(child: Text(onError.toString())),
-                        duration: const Duration(seconds: 5),
-                      ));
-                    });
+                    await takePicture();
+                    // .availableCameras()
+                    //     .then(
+                    //   (value) => Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => UploadPageWidget(
+                    //         cameras: value,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
+                    //     .catchError((onError) {
+                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //     content: Center(child: Text(onError.toString())),
+                    //     duration: const Duration(seconds: 5),
+                    //   ));
+                    // });
                   },
                   icon: const Icon(
                     Icons.upload,

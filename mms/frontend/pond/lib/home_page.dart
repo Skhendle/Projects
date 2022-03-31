@@ -44,7 +44,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                 child: ElevatedButton.icon(
                   onPressed: () async {
-                    await availableCameras().then(
+                    await availableCameras()
+                        .then(
                       (value) => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -53,7 +54,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                         ),
                       ),
-                    );
+                    )
+                        .catchError((onError) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Center(child: Text(onError.toString())),
+                        duration: const Duration(seconds: 5),
+                      ));
+                    });
                   },
                   icon: const Icon(
                     Icons.upload,

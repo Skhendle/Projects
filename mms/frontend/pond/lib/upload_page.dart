@@ -23,10 +23,8 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(
-      widget.cameras![0],
-      ResolutionPreset.max,
-    );
+    controller = CameraController(widget.cameras![0], ResolutionPreset.max,
+        imageFormatGroup: ImageFormatGroup.yuv420);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -68,7 +66,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
           ? Column(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -91,7 +89,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(

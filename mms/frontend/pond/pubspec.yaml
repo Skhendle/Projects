@@ -49,6 +49,7 @@ dependencies:
   timeago: 3.1.0
   url_launcher: 6.0.15
   camera: ^0.9.4+1
+  permission_handler: ^9.2.0
   
 dev_dependencies:
   flutter_test:

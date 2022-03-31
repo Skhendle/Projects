@@ -48,11 +48,8 @@ dependencies:
   shared_preferences: 2.0.11
   timeago: 3.1.0
   url_launcher: 6.0.15
-  camera: ^0.9.4+1
-  permission_handler: ^9.2.0
-  camera_web: ^0.2.1+3
   image_picker: ^0.8.4+11
-  image_whisperer: ^0.11.1
+
   
 dev_dependencies:
   flutter_test:

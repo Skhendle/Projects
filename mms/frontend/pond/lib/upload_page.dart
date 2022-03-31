@@ -4,9 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+
 import 'package:pond/responsive_view.dart';
-import 'package:image_whisperer/image_whisperer.dart';
 
 class UploadPageWidget extends StatefulWidget {
   File? image;

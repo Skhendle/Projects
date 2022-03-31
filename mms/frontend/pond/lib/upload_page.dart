@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pond/responsive_view.dart';
 
 class UploadPageWidget extends StatefulWidget {
   final List<CameraDescription>? cameras;
@@ -42,6 +43,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var screenInfo = ScreenReader().screenReader(context);
     if (!controller.value.isInitialized) {
       return const SizedBox(
         child: Center(
@@ -49,36 +51,95 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
         ),
       );
     }
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: SizedBox(
-              height: 400,
-              width: 400,
-              child: CameraPreview(controller),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          pictureFile = await controller.takePicture();
+          setState(() {});
+        },
+        backgroundColor: const Color(0xFFFF5722),
+        icon: const Icon(
+          Icons.photo_camera,
+        ),
+        elevation: 8,
+        label: Container(),
+      ),
+      body: screenInfo.deviceType == DeviceType.desktop
+          ? Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: CameraPreview(controller),
+                      ),
+                    ),
+                  ),
+                ),
+                const Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: null,
+                      child: Text('Send Picture'),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: (pictureFile != null)
+                              ? Image.network(
+                                  pictureFile!.path,
+                                  height: 200,
+                                )
+                              : const SizedBox.shrink()),
+                    ),
+                  ),
+                )
+
+                //Android/iOS
+                // Image.file(File(pictureFile!.path)))
+              ],
+            )
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: SizedBox(
+                      height: 400,
+                      width: 400,
+                      child: CameraPreview(controller),
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: null,
+                    child: Text('Send Picture'),
+                  ),
+                ),
+                if (pictureFile != null)
+                  Image.network(
+                    pictureFile!.path,
+                    height: 200,
+                  )
+                //Android/iOS
+                // Image.file(File(pictureFile!.path)))
+              ],
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () async {
-              pictureFile = await controller.takePicture();
-              setState(() {});
-            },
-            child: const Text('Capture Image'),
-          ),
-        ),
-        if (pictureFile != null)
-          Image.network(
-            pictureFile!.path,
-            height: 200,
-          )
-        //Android/iOS
-        // Image.file(File(pictureFile!.path)))
-      ],
     );
   }
 

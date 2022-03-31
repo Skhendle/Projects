@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ViewPondsWidget extends StatefulWidget {
   const ViewPondsWidget({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class _ViewPondsWidgetState extends State<ViewPondsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xCF3D77A8),
+      backgroundColor: const Color(0xCF3D77A8),
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -23,19 +22,15 @@ class _ViewPondsWidgetState extends State<ViewPondsWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
                 child: Container(
                   width: double.infinity,
                   height: 80,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xFFEEEEEE),
                   ),
                   child: IconButton(
-                    // borderColor: Colors.transparent,
-                    // borderRadius: 30,
-                    // borderWidth: 1,
-                    // buttonSize: 60,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_outlined,
                       color: Colors.black,
                       size: 50,

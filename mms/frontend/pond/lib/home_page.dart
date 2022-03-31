@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pond/upload_page.dart';
-import 'package:pond/view_ponds.dart';
+import 'package:pond/upload_page/upload_page.dart';
+import 'package:pond/view_ponds/view_ponds.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
@@ -66,24 +64,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     );
 
-                    // .availableCameras()
-                    //     .then(
-                    //   (value) =>
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => UploadPageWidget(
-                    //         cameras: value,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
-                    //     .catchError((onError) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //     content: Center(child: Text(onError.toString())),
-                    //     duration: const Duration(seconds: 5),
-                    //   ));
-                    // });
                   },
                   icon: const Icon(
                     Icons.upload,

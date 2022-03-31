@@ -1,6 +1,5 @@
 // import 'dart:html';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:pond/responsive_view.dart';
 
 class UploadPageWidget extends StatefulWidget {
-  File? image;
-  UploadPageWidget({
+  final File? image;
+  const UploadPageWidget({
     Key? key,
     this.image,
   }) : super(key: key);
@@ -36,7 +35,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
       children: [
         Expanded(
             flex: 4,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: (kIsWeb)

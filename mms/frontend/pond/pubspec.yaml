@@ -52,6 +52,7 @@ dependencies:
   permission_handler: ^9.2.0
   camera_web: ^0.2.1+3
   image_picker: ^0.8.4+11
+  image_whisperer: ^0.11.1
   
 dev_dependencies:
   flutter_test:

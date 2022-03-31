@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,9 +56,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await takePicture();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UploadPageWidget(
+                          image: image,
+                        ),
+                      ),
+                    );
+
                     // .availableCameras()
                     //     .then(
-                    //   (value) => Navigator.push(
+                    //   (value) =>
+                    // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(
                     //       builder: (context) => UploadPageWidget(

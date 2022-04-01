@@ -2,10 +2,11 @@
 
 part of 'upload_bloc.dart';
 
-
 class UploadState extends Equatable {
   const UploadState(
-      {this.description = const Name.pure(), this.image,this.status = FormzStatus.pure});
+      {this.description = const Name.pure(),
+      this.image,
+      this.status = FormzStatus.pure});
 
   final Name description;
   final File? image;
@@ -17,12 +18,13 @@ class UploadState extends Equatable {
   }) {
     return UploadState(
       description: description ?? this.description,
+      image: image ?? this.image,
       status: status ?? this.status,
     );
   }
 
   @override
-  List<Object> get props => [description, status];
+  List<Object> get props => [description, image!, status];
 }
 
 class UploadResponse extends UploadState {

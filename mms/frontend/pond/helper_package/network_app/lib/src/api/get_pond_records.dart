@@ -30,7 +30,7 @@ class PondModels {
       };
 }
 
-class GetPondRecords {
+class GetPondRecordsAPI {
   Future<List<PondModels>> getRecords() async {
     final request = await http.get(
       Uri.parse('${serverUrl}get_pond_records'),

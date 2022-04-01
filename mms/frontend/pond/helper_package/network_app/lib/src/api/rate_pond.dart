@@ -5,7 +5,7 @@ import 'package:network_app/src/constants.dart';
 
 import 'get_pond_records.dart';
 
-class RatePond {
+class RatePondAPI {
   Future<PondModels> getRecords(int pondId, String rating) async {
     var inputData = {
       'id': pondId,

@@ -1,7 +1,10 @@
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:network_app/src/constants.dart';
+
+DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
 
 class PondModels {
   int? id;
@@ -18,7 +21,7 @@ class PondModels {
 
   PondModels.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        created = json['created'],
+        created = inputFormat.parse(json['created']),
         description = json['description'],
         rating = json['rating'];
 
@@ -37,12 +40,13 @@ class GetPondRecordsAPI {
       headers: {'Content-Type': 'application/json'},
     ).timeout(Duration(seconds: 30));
 
-    var response = jsonDecode(jsonEncode(request.body));
+    var response = jsonDecode(request.body);
 
     if (request.statusCode == 200) {
-      print(response);
       List<PondModels> data = [];
       for (var item in response) {
+        // print(item.toString());
+        // print(item);
         data.add(PondModels.fromJson(item));
       }
       return data;

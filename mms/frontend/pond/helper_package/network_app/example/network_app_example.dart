@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:network_app/network_app.dart';
+import 'package:intl/intl.dart';
+
 // import 'package:http/http.dart' as http;
 // import 'package:path/path.dart';
 // import 'package:async/async.dart';
@@ -15,7 +17,12 @@ void main() async {
     print(item.id);
     print(item.description);
     print(item.rating);
-    print(item.created);
+    // String dateStart = '22-04-2021 05:57:58 PM';
+    // DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
+    // DateTime input = inputFormat.parse(item.created!);
+    // print(input);
+    print(item.created!);
+    print('----');
   }
 
   // var ratePond = RatePondAPI();

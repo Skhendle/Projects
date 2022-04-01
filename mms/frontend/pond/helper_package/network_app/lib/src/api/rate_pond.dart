@@ -22,7 +22,7 @@ class RatePondAPI {
     if (request.statusCode == 200) {
       PondModels data = PondModels(
           id: response['id'],
-          created: DateTime.tryParse(response['created']),
+          created: response['created'],
           description: response['description'],
           rating: response['rating']);
       return data;

@@ -16,8 +16,9 @@ def get_pond_records():
         response = []
         
         for item in result:
-            # print(type(item.photo))
-            
+            # print(item.created, '\n')
+            # datetime_object = dt.strptime(item.created, '%b-%d-%Y %I:%M%p')
+            # print(datetime_object, '\n')
             response.append(
                 {
                     'id': item.id,
@@ -29,6 +30,7 @@ def get_pond_records():
             )
         return make_response(jsonify(response),200)
     except Exception as e:
+        print(str(e))
         return make_response(str(e), 400)
 
 

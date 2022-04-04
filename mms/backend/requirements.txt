@@ -5,6 +5,7 @@ charset-normalizer==2.0.12
 click==8.0.4
 ddtrace==0.60.0
 Flask==2.0.3
+Flask-Cors==3.0.10
 flask-restplus==0.13.0
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.2

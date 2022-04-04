@@ -3,23 +3,35 @@ from datetime import datetime as dt
 from encodings import utf_8
 import json, io, os
 from flask import current_app as app
+
 from flask import make_response, request, jsonify, send_file
 from .models import PondEntries, db
 import PIL.Image as Image
 # TODO: Add route paramaters
+from io import BytesIO
+
+
+
+
 
 # upload pond condition
 # upload picture and description
 @app.route("/add_pond", methods=["POST"])
+
 def add_pond_records():
     """Create a user via query string parameters."""
     data = json.loads(request.data)
-    response = make_response('Invalid Pond Id')
-    response.status_code = 200
-    response.headers[''] = '*'
+    response = make_response(jsonify('Data Received'))
+    response.status_code = 201
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Content-Type'] = 'application/json'
     print(data,'hello')
+    # print(bytes(data['bytes']))
+    # response = requests.get(url)
+    # img = Image.open(BytesIO(data['bytes']))
+    # img.show()
     # print(request.accept_metypes)
-    return make_response('Invalid Pond Id', 200)
+    return response
   
     # img = request.files['file']
     # print(request.form['description'])

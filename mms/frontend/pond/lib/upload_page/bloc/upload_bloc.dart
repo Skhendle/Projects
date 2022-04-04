@@ -43,13 +43,12 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       // Display progress indicator
       emit(UploadingPond());
       var repo = AddPondAPI();
-      var response = await repo.addPondRecord(
-          imageData!.list, imageData.fileName, description.value);
-      // print(response);
-      // print(await image!.readAsBytes());
-
-      try {} catch (e) {
-        emit(UploadResponse(false, e.toString()));
+      try {
+        var response = await repo.addPondRecord(
+            imageData!.list, imageData.fileName, description.value);
+        emit(UploadResponse(true, response));
+      } catch (e) {
+        emit(UploadResponse(false, 'Failed to upload ${imageData!.fileName}'));
       }
     }
   }

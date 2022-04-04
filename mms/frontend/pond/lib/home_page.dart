@@ -74,9 +74,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       MaterialPageRoute(
                         builder: (context) => BlocProvider(
                           create: (context) => UploadBloc(),
-                          child: UploadPageWidget(
-                            image: image,
-                            imageData: imageData,
+                          child: BlocListener<UploadBloc, UploadState>(
+                            listener: (context, UploadState state) {
+                              if (state is UploadResponse) {
+                                // Navigate to home page
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      state.message,
+                                      style: TextStyle(
+                                          color: state.success
+                                              ? Colors.white
+                                              : Colors.red),
+                                    ),
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: UploadPageWidget(
+                              image: image,
+                              imageData: imageData,
+                            ),
                           ),
                         ),
                       ),

@@ -77,19 +77,12 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
                         : Image.file(File(widget.image!.path)),
                   )),
               Expanded(
-                  flex: 2,
-                  child: Container(
+                flex: 2,
+                child: Container(
                     width: double.infinity,
                     height: double.infinity,
                     child: UploadForm(imageData: widget.imageData!)),
-                  ),
-              // Expanded(
-              //     flex: 1,
-              //     child: Container(
-              //       width: double.infinity,
-              //       height: double.infinity,
-              //       color: Colors.yellow,
-              //     ))
+              ),
             ],
           );
         },
@@ -165,18 +158,28 @@ class _UploadFormState extends State<UploadForm> {
           flex: 1,
           child: BlocBuilder<UploadBloc, UploadState>(
             builder: (context, state) {
-              return AppDropdownInput(
-                hintText: "System Role",
-                options: ["General", "Admin"],
-                value: description,
-                onChanged: (value) {
-                  setState(() {
-                    description = value as String?;
-                    context.read<UploadBloc>().add(UpdatedPondDescription(
-                        description: description!, imageData: widget.imageData!));
-                  });
-                },
-                getLabel: (String value) => value,
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AppDropdownInput(
+                  hintText: "Please Select Pond Condition",
+                  options: const [
+                    "Excellent",
+                    "Good",
+                    "Normal",
+                    "Bad",
+                    "Awful"
+                  ],
+                  value: description,
+                  onChanged: (value) {
+                    setState(() {
+                      description = value as String?;
+                      context.read<UploadBloc>().add(UpdatedPondDescription(
+                          description: description!,
+                          imageData: widget.imageData!));
+                    });
+                  },
+                  getLabel: (String value) => value,
+                ),
               );
             },
           ),

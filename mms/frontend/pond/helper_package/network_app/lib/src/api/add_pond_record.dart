@@ -7,7 +7,7 @@ class AddPondAPI {
       List<int> list, String fileName, String description) async {
     var inputData = {
       'list': list,
-      'fileName': fileName,
+      'fileName': fileName.toLowerCase(),
       'description': description,
     };
 

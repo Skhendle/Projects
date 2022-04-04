@@ -6,14 +6,12 @@ import 'package:network_app/src/constants.dart';
 class AddPondAPI {
   Future<String> addPondRecord(
       List<int> list, String fileName, String description) async {
-    // Uint8List bytes = Uint8List.fromList(list);
-    // print(bytes.buffer.asByteData());
     var inputData = {
-      'bytes': 'bytes',
+      'list': list,
       'fileName': fileName,
       'description': description,
     };
-    
+
     final request = await http
         .post(Uri.parse('${serverUrl}add_pond'),
             headers: {
@@ -21,11 +19,14 @@ class AddPondAPI {
               "Access-Control-Allow-Origin": "*"
             },
             body: jsonEncode(inputData))
-        .timeout(Duration(seconds: 30));
+        .timeout(Duration(seconds: 30))
+        .catchError((onError) {
+      throw (onError.toString());
+    });
 
     // var response = jsonDecode(request.body);
 
-    if (request.statusCode == 200) {
+    if (request.statusCode == 201) {
       var data = request.body;
       return data;
     } else {

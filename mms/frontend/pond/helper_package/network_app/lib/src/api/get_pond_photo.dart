@@ -14,15 +14,20 @@ class GetPondPhotoAPI {
     };
     final request = await http
         .post(Uri.parse('${serverUrl}rate_pond'),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            },
             body: jsonEncode(inputData))
-        .timeout(Duration(seconds: 30));
+        .timeout(Duration(seconds: 30))
+        .catchError((onError) {
+          throw(onError.toString());
+        });
 
     var response = jsonDecode(request.body);
 
     if (request.statusCode == 200) {
-
-          DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
+      DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
       PondModels data = PondModels(
           id: response['id'],
           created: inputFormat.parse(response['created']),

@@ -40,6 +40,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     if (state.status.isValidated) {
       // Display progress indicator
       emit(UploadingPond());
+      print(await image!.readAsBytes());
 
       // try {
       //   var updateResponse =

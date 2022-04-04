@@ -1,8 +1,15 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pond/upload_page/bloc/upload_bloc.dart';
+import 'package:pond/upload_page/models/image_data.dart';
 import 'package:pond/upload_page/upload_page.dart';
 import 'package:pond/view_ponds/view_ponds.dart';
+
+import 'dart:convert';
+import 'dart:typed_data';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
@@ -11,16 +18,21 @@ class HomePageWidget extends StatefulWidget {
   _HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
+
 class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   File? image;
+  ImageData? imageData;
 
   Future takePicture() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
 
+    Uint8List data = await image.readAsBytes();
+    List<int> list = data.cast();
     final imageTemp = File(image.path);
     this.image = imageTemp;
+    this.imageData = ImageData(finaName: image.name, list: list);
   }
 
   @override
@@ -54,16 +66,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await takePicture();
+                    if (kDebugMode) {
+                      print(await image!.readAsBytes());
+                    }
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UploadPageWidget(
-                          image: image,
+                        builder: (context) => BlocProvider(
+                          create: (context) => UploadBloc(),
+                          child: UploadPageWidget(
+                            image: image,
+                            imageData: imageData,
+                          ),
                         ),
                       ),
                     );
-
                   },
                   icon: const Icon(
                     Icons.upload,

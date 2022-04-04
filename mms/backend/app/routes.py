@@ -8,6 +8,36 @@ from .models import PondEntries, db
 import PIL.Image as Image
 # TODO: Add route paramaters
 
+# upload pond condition
+# upload picture and description
+@app.route("/add_pond", methods=["POST"])
+def add_pond_records():
+    """Create a user via query string parameters."""
+    data = json.loads(request.data)
+    response = make_response('Invalid Pond Id')
+    response.status_code = 200
+    response.headers[''] = '*'
+    print(data,'hello')
+    # print(request.accept_metypes)
+    return make_response('Invalid Pond Id', 200)
+  
+    # img = request.files['file']
+    # print(request.form['description'])
+    # record = PondEntries(
+    #     created = dt.now(),
+    #     description = request.form['description'],
+    #     photo = img.read(),
+    #     photo_type = img.filename.split('.')[1]
+    # )
+    # try:
+    #     db.session.add(record)
+    #     db.session.commit()
+    #     return make_response('Record Added', 201)
+    # except Exception as e:
+    #     return make_response('Invalid Request', 400)
+
+
+
 @app.route("/get_pond_records", methods=["GET"])
 def get_pond_records():
     # Get all pond records available in the database
@@ -50,33 +80,6 @@ def get_pond_photo():
         return make_response('Invalid Request', 400)
 
 
-# upload pond condition
-# upload picture and description
-@app.route("/add_pond", methods=["POST"])
-def add_pond_records():
-    """Create a user via query string parameters."""
-    data = json.loads(request.data)
-    response = make_response('Invalid Pond Id')
-    response.status_code = 200
-    response.headers[''] = '*'
-    print(data,'hello')
-    # print(request.accept_metypes)
-    return make_response('Invalid Pond Id', 200)
-  
-    # img = request.files['file']
-    # print(request.form['description'])
-    # record = PondEntries(
-    #     created = dt.now(),
-    #     description = request.form['description'],
-    #     photo = img.read(),
-    #     photo_type = img.filename.split('.')[1]
-    # )
-    # try:
-    #     db.session.add(record)
-    #     db.session.commit()
-    #     return make_response('Record Added', 201)
-    # except Exception as e:
-    #     return make_response('Invalid Request', 400)
 
 
  # Post to method data == {'id':##,'rating':###}

@@ -31,7 +31,10 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var screenReader = ScreenReader().screenReader(context); 
+    var screenReader = ScreenReader().screenReader(context);
+    var dropDownPadding = EdgeInsets.symmetric(
+        horizontal: (screenReader.deviceType == DeviceType.desktop ? 100 : 15));
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -80,6 +83,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
               Expanded(
                 flex: 2,
                 child: Container(
+                    padding: dropDownPadding,
                     width: double.infinity,
                     height: double.infinity,
                     child: UploadForm(imageData: widget.imageData!)),
@@ -110,14 +114,16 @@ class AppDropdownInput<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var defaultPadding = 8.0;
+    var defaultPadding = 10.0;
     return FormField<T>(
       builder: (FormFieldState<T> state) {
         return InputDecorator(
+          
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding),
             labelText: hintText,
+            
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
           ),
@@ -153,6 +159,11 @@ class _UploadFormState extends State<UploadForm> {
   String? description;
   @override
   Widget build(BuildContext context) {
+    var screenReader = ScreenReader().screenReader(context);
+    var dropDownPadding = EdgeInsets.symmetric(
+        horizontal: (screenReader.deviceType == DeviceType.desktop
+            ? (screenReader.screenSize == ScreenSize.large ? 200 : 100)
+            : 15));
     return Column(
       children: [
         Expanded(
@@ -160,7 +171,7 @@ class _UploadFormState extends State<UploadForm> {
           child: BlocBuilder<UploadBloc, UploadState>(
             builder: (context, state) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: dropDownPadding,
                 child: AppDropdownInput(
                   hintText: "Please Select Pond Condition",
                   options: const [
@@ -187,16 +198,24 @@ class _UploadFormState extends State<UploadForm> {
         ),
         Expanded(
             child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 35),
                 child: BlocBuilder<UploadBloc, UploadState>(
                   buildWhen: (previous, current) =>
                       previous.status != current.status,
                   builder: (context, state) {
                     return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 20),
+                        maximumSize: const Size(200, 20),
+                      ),
                       onPressed: state.status.isValidated
                           ? () => context.read<UploadBloc>().add(UploadPond())
                           : null,
-                      child: const Text('Update'),
+                      child: const Text(
+                        'Update',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     );
                   },
                 )))

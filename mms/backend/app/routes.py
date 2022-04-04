@@ -7,46 +7,46 @@ from flask import current_app as app
 from flask import make_response, request, jsonify, send_file
 from .models import PondEntries, db
 import PIL.Image as Image
+
 # TODO: Add route paramaters
-from io import BytesIO
-
-
-
-
-
 # upload pond condition
 # upload picture and description
-@app.route("/add_pond", methods=["POST"])
 
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
+
+@app.route("/add_pond", methods=["POST"])
 def add_pond_records():
     """Create a user via query string parameters."""
     data = json.loads(request.data)
-    response = make_response(jsonify('Data Received'))
-    response.status_code = 201
+    response = make_response()
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Content-Type'] = 'application/json'
-    print(data,'hello')
-    # print(bytes(data['bytes']))
-    # response = requests.get(url)
-    # img = Image.open(BytesIO(data['bytes']))
-    # img.show()
-    # print(request.accept_metypes)
-    return response
-  
-    # img = request.files['file']
-    # print(request.form['description'])
-    # record = PondEntries(
-    #     created = dt.now(),
-    #     description = request.form['description'],
-    #     photo = img.read(),
-    #     photo_type = img.filename.split('.')[1]
-    # )
-    # try:
-    #     db.session.add(record)
-    #     db.session.commit()
-    #     return make_response('Record Added', 201)
-    # except Exception as e:
-    #     return make_response('Invalid Request', 400)
+
+    image = Image.open(io.BytesIO(bytes(data['list'])), formats=[data['fileName'].split('.')[1]])
+    image.save(data['fileName'])
+    record = PondEntries(
+            created = dt.now(),
+            description = data['description'],
+            photo = convertToBinaryData(str(os.getcwd())+'/'+data['fileName']),
+            photo_type = data['fileName'].split('.')[1]
+        )
+    try:
+        db.session.add(record)
+        db.session.commit()
+        print(os.path.exists(str(os.getcwd())+'/'+data['fileName']))
+        if os.path.exists(str(os.getcwd())+'/'+data['fileName']):
+            os.remove(str(os.getcwd())+'/'+data['fileName'])
+        response.status_code = 201
+        response.response =  jsonify('Image Successfully Updated')
+        return response
+    except Exception as e:
+        response.status_code = 400
+        response.response =  jsonify('Image Successfully Updated')
+        return response
 
 
 
@@ -58,9 +58,7 @@ def get_pond_records():
         response = []
         
         for item in result:
-            # print(item.created, '\n')
-            # datetime_object = dt.strptime(item.created, '%b-%d-%Y %I:%M%p')
-            # print(datetime_object, '\n')
+
             response.append(
                 {
                     'id': item.id,
@@ -111,7 +109,7 @@ def rate_pond():
                     'created': result.created,
                     'description': result.description,
                     'rating': result.rating
-                }), 200)
+                }), 201)
         except Exception as e:
             return make_response('Invalid Request', 401)
 

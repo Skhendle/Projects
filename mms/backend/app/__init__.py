@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
     # CORS(app, resources={r"*": {"Access-Control-Allow-Origin": "*"}})
-     CORS(app)
+    CORS(app)
     db.init_app(app)
 
     with app.app_context():

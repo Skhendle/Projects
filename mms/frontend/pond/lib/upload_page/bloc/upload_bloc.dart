@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
+import 'package:pond/upload_page/models/image_data.dart';
 import 'package:pond/upload_page/models/name.dart';
 
 part 'upload_event.dart';
@@ -18,10 +19,10 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   void _onPondDescriptionChanged(
       UpdatedPondDescription event, Emitter<UploadState> emit) {
     final description = Name.dirty(event.description);
-    final image = event.image;
+    final image = event.imageData;
     emit(state.copyWith(
       description: description,
-      image: image,
+      imageData: image,
       status: Formz.validate([description]),
     ));
   }
@@ -29,18 +30,18 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   Future<void> _onUploadImage(
       UploadPond event, Emitter<UploadState> emit) async {
     final description = Name.dirty(state.description.value);
-    final image = state.image;
+    final imageData = state.imageData;
 
     emit(state.copyWith(
       description: description,
-      image: image,
+      imageData: imageData,
       status: Formz.validate([description]),
     ));
 
     if (state.status.isValidated) {
       // Display progress indicator
       emit(UploadingPond());
-      print(await image!.readAsBytes());
+      // print(await image!.readAsBytes());
 
       // try {
       //   var updateResponse =

@@ -81,8 +81,8 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
                   child: Container(
                     width: double.infinity,
                     height: double.infinity,
-                    //child: UploadForm(file: File(widget.image!.path)),
-                  )),
+                    child: UploadForm(imageData: widget.imageData!)),
+                  ),
               // Expanded(
               //     flex: 1,
               //     child: Container(
@@ -148,8 +148,8 @@ class AppDropdownInput<T> extends StatelessWidget {
 }
 
 class UploadForm extends StatefulWidget {
-  UploadForm({Key? key, this.file}) : super(key: key);
-  File? file;
+  UploadForm({Key? key, this.imageData}) : super(key: key);
+  ImageData? imageData;
 
   @override
   State<UploadForm> createState() => _UploadFormState();
@@ -173,7 +173,7 @@ class _UploadFormState extends State<UploadForm> {
                   setState(() {
                     description = value as String?;
                     context.read<UploadBloc>().add(UpdatedPondDescription(
-                        description: description!, image: widget.file!));
+                        description: description!, imageData: widget.imageData!));
                   });
                 },
                 getLabel: (String value) => value,

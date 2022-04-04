@@ -10,13 +10,13 @@ abstract class UploadEvent extends Equatable {
 }
 
 class UpdatedPondDescription extends UploadEvent {
-  const UpdatedPondDescription({required this.description, required this.image});
+  const UpdatedPondDescription({required this.description, required this.imageData});
 
   final String description;
-  final File image;
+  final ImageData imageData;
 
   @override
-  List<Object> get props => [description, image];
+  List<Object> get props => [description, imageData];
 }
 
 class UploadPond extends UploadEvent {}

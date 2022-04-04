@@ -18,7 +18,6 @@ class HomePageWidget extends StatefulWidget {
   _HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
-
 class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   File? image;
@@ -32,7 +31,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     List<int> list = data.cast();
     final imageTemp = File(image.path);
     this.image = imageTemp;
-    this.imageData = ImageData(finaName: image.name, list: list);
+    imageData = ImageData(finaName: image.name, list: list);
   }
 
   @override
@@ -66,9 +65,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await takePicture();
-                    if (kDebugMode) {
-                      print(await image!.readAsBytes());
-                    }
+                    // if (kDebugMode) {
+                    //   print(await image!.readAsBytes());
+                    // }
 
                     Navigator.push(
                       context,

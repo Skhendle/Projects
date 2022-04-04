@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pond/responsive_view.dart';
 import 'package:pond/upload_page/bloc/upload_bloc.dart';
 import 'package:pond/upload_page/models/image_data.dart';
 import 'package:pond/upload_page/upload_page.dart';
@@ -36,6 +37,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var screenReader = ScreenReader().screenReader(context);
+    var btnPadding = EdgeInsetsDirectional.fromSTEB(
+        (screenReader.deviceType == DeviceType.desktop
+            ? (screenReader.screenSize == ScreenSize.large ? 450 : 250)
+            : 30),
+        (screenReader.deviceType == DeviceType.desktop ? 50 : 10),
+        (screenReader.deviceType == DeviceType.desktop
+            ? (screenReader.screenSize == ScreenSize.large ? 450 : 250)
+            : 30),
+        (screenReader.deviceType == DeviceType.desktop ? 50 : 10));
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color(0xCF3D77A8),
@@ -61,7 +72,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           Expanded(
             flex: 1,
             child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
+                padding: btnPadding,
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await takePicture();
@@ -80,9 +91,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 // Navigate to home page
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
+                                    duration: const Duration(seconds: 5),
                                     content: Text(
                                       state.message,
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
                                           color: state.success
                                               ? Colors.white
                                               : Colors.red),
@@ -119,7 +134,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           ),
           Expanded(
             child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(30, 20, 30, 20),
+                padding: btnPadding,
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await Navigator.push(

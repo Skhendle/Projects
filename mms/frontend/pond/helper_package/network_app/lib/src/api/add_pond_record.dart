@@ -26,7 +26,7 @@ class AddPondAPI {
     // var response = jsonDecode(request.body);
 
     if (request.statusCode == 201) {
-      var data = request.body;
+      var data = jsonDecode(request.body);
       return data;
     } else {
       throw (request.body);

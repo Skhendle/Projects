@@ -31,6 +31,7 @@ class _UploadPageWidgetState extends State<UploadPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var screenReader = ScreenReader().screenReader(context); 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -141,8 +142,8 @@ class AppDropdownInput<T> extends StatelessWidget {
 }
 
 class UploadForm extends StatefulWidget {
-  UploadForm({Key? key, this.imageData}) : super(key: key);
-  ImageData? imageData;
+  const UploadForm({Key? key, this.imageData}) : super(key: key);
+  final ImageData? imageData;
 
   @override
   State<UploadForm> createState() => _UploadFormState();

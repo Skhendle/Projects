@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 import 'package:pond/upload_page/models/image_data.dart';
 import 'package:pond/upload_page/models/name.dart';
-
+import 'package:network_app/network_app.dart';
 part 'upload_event.dart';
 part 'upload_state.dart';
 
@@ -41,20 +42,19 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     if (state.status.isValidated) {
       // Display progress indicator
       emit(UploadingPond());
+      if (kDebugMode) {
+        print(imageData!.list);
+        print(imageData.fileName);
+      }
+      var repo = AddPondAPI();
+      var response = await repo.addPondRecord(
+          imageData!.list, imageData.fileName, description.value);
+      print(response);
       // print(await image!.readAsBytes());
 
-      // try {
-      //   var updateResponse =
-      //       await repo.updateUserRole(systemRole.value, userInfo.id!);
-      //   emit(SystemRoleUpdateResponse('', '${updateResponse.message}'));
-      //   await Future.delayed(Duration(seconds: 2));
-      //   emit(UpdateSystemRoleInitial());
-      // } catch (e) {
-      //   emit(SystemRoleUpdateResponse('', 'Error Please Try Again'));
-
-      //   await Future.delayed(Duration(milliseconds: 900));
-      //   emit(UpdateSystemRoleInitial());
-      // }
+      try {} catch (e) {
+        emit(UploadResponse(false, e.toString()));
+      }
     }
   }
 }

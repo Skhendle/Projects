@@ -31,7 +31,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     List<int> list = data.cast();
     final imageTemp = File(image.path);
     this.image = imageTemp;
-    imageData = ImageData(finaName: image.name, list: list);
+    imageData = ImageData(fileName: image.name, list: list);
   }
 
   @override

@@ -1,5 +1,5 @@
 class ImageData {
-  final String finaName;
+  final String fileName;
   final List<int> list;
-  ImageData({required this.finaName, required this.list});
+  ImageData({required this.fileName, required this.list});
 }

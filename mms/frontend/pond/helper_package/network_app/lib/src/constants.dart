@@ -1,2 +1,2 @@
 // TODO: Put public facing types in this file.
-final String serverUrl = 'http://192.168.8.104:5000/';
+final String serverUrl = 'http://42a2-197-185-99-90.ngrok.io/';

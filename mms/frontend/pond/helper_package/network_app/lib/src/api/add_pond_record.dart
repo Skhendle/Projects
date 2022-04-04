@@ -1,35 +1,34 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:network_app/src/constants.dart';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
 
 class AddPondAPI {
-  Future<String> addPondRecord(File file, String description) async {
-    var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
-    // get file length
-    var length = await file.length();
-    var uri = Uri.parse('${serverUrl}add_pond');
+  Future<String> addPondRecord(
+      List<int> list, String fileName, String description) async {
+    var inputData = {
+      'list': list,
+      'fileName': fileName,
+      'description': description,
+    };
+    final request = await http
+        .post(Uri.parse('${serverUrl}add_pond'),
+            headers: {
+              'Content-Type': 'application/json',
+              "Access-Control-Allow-Origin": "*"
+            },
+            body: jsonEncode(inputData))
+        .timeout(Duration(seconds: 30));
 
-    // create multipart request && multipart that takes file
-    var request = http.MultipartRequest("POST", uri);
-    var multipartFile = http.MultipartFile('file', stream, length,
-        filename: basename(file.path));
+    var response = jsonDecode(request.body);
+    print(response);
+    print(request.statusCode);
 
-    // add file to multipart
-    request.files.add(multipartFile);
-    request.fields['description'] = description;
-    var response = await request.send();
-
-    // print(response.statusCode);
-
-    if (response.statusCode == 201) {
-      return "Upload Successful";
+    if (request.statusCode == 200) {
+      var data = response;
+      return data;
     } else {
-      return "Upload Unsuccessful";
+      throw (response);
     }
   }
 }

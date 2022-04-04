@@ -42,14 +42,14 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     if (state.status.isValidated) {
       // Display progress indicator
       emit(UploadingPond());
-      if (kDebugMode) {
-        print(imageData!.list);
-        print(imageData.fileName);
-      }
+      // if (kDebugMode) {
+      //   print(imageData!.list);
+      //   print(imageData.fileName);
+      // }
       var repo = AddPondAPI();
       var response = await repo.addPondRecord(
           imageData!.list, imageData.fileName, description.value);
-      print(response);
+      // print(response);
       // print(await image!.readAsBytes());
 
       try {} catch (e) {

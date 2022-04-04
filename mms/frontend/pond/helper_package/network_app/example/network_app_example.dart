@@ -1,19 +1,19 @@
 import 'package:network_app/network_app.dart';
 
 void main() async {
-  var getRepo = GetPondRecordsAPI();
-  var data = await getRepo.getRecords();
-  for (var item in data) {
-    print(item.id);
-    print(item.description);
-    print(item.rating);
-    // String dateStart = '22-04-2021 05:57:58 PM';
-    // DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
-    // DateTime input = inputFormat.parse(item.created!);
-    // print(input);
-    print(item.created!);
-    print('----');
-  }
+  // var getRepo = GetPondRecordsAPI();
+  // var data = await getRepo.getRecords();
+  // for (var item in data) {
+  //   print(item.id);
+  //   print(item.description);
+  //   print(item.rating);
+  //   // String dateStart = '22-04-2021 05:57:58 PM';
+  //   // DateFormat inputFormat = DateFormat('E, d MMM yyyy HH:mm:ss');
+  //   // DateTime input = inputFormat.parse(item.created!);
+  //   // print(input);
+  //   print(item.created!);
+  //   print('----');
+  // }
 
   // var ratePond = RatePondAPI();
   // var ratePondData = await ratePond.getRecords(2, "Good");
@@ -23,9 +23,16 @@ void main() async {
   // String path = current.path + "/PP.jpeg";
   // final file = File(path);
 
-  // var addPond = AddPondAPI();
-  // var addPondData = await addPond.addPondRecord(file, "Good");
-  // print(addPondData);
+  var addPond = AddPondAPI();
+  var addPondData = await addPond.addPondRecord([
+    1,
+    85,
+    6,
+    4,
+    5,
+    5,
+  ], "Good.png", 'Image');
+  print(addPondData);
 }
 
 

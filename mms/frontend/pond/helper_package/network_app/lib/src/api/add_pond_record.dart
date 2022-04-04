@@ -1,34 +1,35 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'dart:typed_data';
 import 'package:network_app/src/constants.dart';
 
 class AddPondAPI {
   Future<String> addPondRecord(
       List<int> list, String fileName, String description) async {
+    // Uint8List bytes = Uint8List.fromList(list);
+    // print(bytes.buffer.asByteData());
     var inputData = {
-      'list': list,
+      'bytes': 'bytes',
       'fileName': fileName,
       'description': description,
     };
+    
     final request = await http
         .post(Uri.parse('${serverUrl}add_pond'),
             headers: {
-              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
               "Access-Control-Allow-Origin": "*"
             },
             body: jsonEncode(inputData))
         .timeout(Duration(seconds: 30));
 
-    var response = jsonDecode(request.body);
-    print(response);
-    print(request.statusCode);
+    // var response = jsonDecode(request.body);
 
     if (request.statusCode == 200) {
-      var data = response;
+      var data = request.body;
       return data;
     } else {
-      throw (response);
+      throw (request.body);
     }
   }
 }

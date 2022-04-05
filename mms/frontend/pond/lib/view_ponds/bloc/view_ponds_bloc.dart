@@ -10,11 +10,11 @@ part 'view_ponds_state.dart';
 
 class ViewPondsBloc extends Bloc<RatePondEvent, RatePondsState> {
   ViewPondsBloc() : super(RatingInitial()) {
-    on<UodatePondRating>(_onPondDescriptionChanged);
-    on<RatePond>(_onUploadImage);
+    on<UodatePondRating>(_onPondRatingChanged);
+    on<RatePond>(_onRatePond);
   }
 
-  void _onPondDescriptionChanged(
+  void _onPondRatingChanged(
       UodatePondRating event, Emitter<RatePondsState> emit) {
     final rating = Name.dirty(event.rating);
 
@@ -24,7 +24,7 @@ class ViewPondsBloc extends Bloc<RatePondEvent, RatePondsState> {
     ));
   }
 
-  Future<void> _onUploadImage(
+  Future<void> _onRatePond(
       RatePond event, Emitter<RatePondsState> emit) async {
     final rating = Name.dirty(state.rating.value);
     final pondId = event.pondId;

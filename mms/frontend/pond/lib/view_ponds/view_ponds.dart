@@ -55,7 +55,7 @@ class _ViewPondsWidgetState extends State<ViewPondsWidget> {
                   ),
                   child: RawScrollbar(
                       thumbColor: Colors.white,
-                      radius: Radius.circular(20),
+                      radius: const Radius.circular(20),
                       thickness: 5,
                       isAlwaysShown: true,
                       child: ListView.builder(

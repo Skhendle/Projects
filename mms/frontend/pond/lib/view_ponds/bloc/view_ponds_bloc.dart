@@ -10,22 +10,22 @@ part 'view_ponds_state.dart';
 
 class ViewPondsBloc extends Bloc<RatePondEvent, RatePondsState> {
   ViewPondsBloc() : super(RatingInitial()) {
-    on<UodatePondRating>(_onPondRatingChanged);
+    on<UpdatePondRating>(_onPondRatingChanged);
     on<RatePond>(_onRatePond);
   }
 
   void _onPondRatingChanged(
-      UodatePondRating event, Emitter<RatePondsState> emit) {
+      UpdatePondRating event, Emitter<RatePondsState> emit) {
     final rating = Name.dirty(event.rating);
 
     emit(state.copyWith(
-      rating: rating,
-      status: Formz.validate([rating]),
-    ));
+        rating: rating,
+        status: Formz.validate(
+          [const Name.dirty('Updated')],
+        )));
   }
 
-  Future<void> _onRatePond(
-      RatePond event, Emitter<RatePondsState> emit) async {
+  Future<void> _onRatePond(RatePond event, Emitter<RatePondsState> emit) async {
     final rating = Name.dirty(state.rating.value);
     final pondId = event.pondId;
 

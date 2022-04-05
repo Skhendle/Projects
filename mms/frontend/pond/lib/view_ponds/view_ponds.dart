@@ -1,6 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:network_app/network_app.dart';
+import 'package:pond/responsive_view.dart';
+
 import 'package:timeago/timeago.dart' as timeago;
+
+import 'bloc/view_ponds_bloc.dart';
+
+class AppDropdownInput<T> extends StatelessWidget {
+  final String hintText;
+  final List<T> options;
+  final T? value;
+  final String Function(T) getLabel;
+  void Function(T?)? onChanged;
+
+  AppDropdownInput({
+    Key? key,
+    this.hintText = 'Please Select An Option',
+    this.options = const [],
+    required this.getLabel,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var defaultPadding = 5.0;
+    return FormField<T>(
+      builder: (FormFieldState<T> state) {
+        return InputDecorator(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: defaultPadding),
+            labelText: hintText,
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+          ),
+          isEmpty: value == null || value == '',
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<T>(
+              value: value,
+              isDense: true,
+              onChanged: onChanged,
+              items: options.map((T value) {
+                return DropdownMenuItem<T>(
+                  value: value,
+                  child: Text(getLabel(value)),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
 
 class ViewPondsWidget extends StatefulWidget {
   const ViewPondsWidget({Key? key}) : super(key: key);
@@ -152,7 +207,112 @@ class _ViewPondCardState extends State<ViewPondCard> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: ElevatedButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SimpleDialog(
+                                          backgroundColor: Colors.blueAccent,
+                                          children: [
+                                            SizedBox(
+                                              width: 80,
+                                              height: 250,
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                      flex: 1,
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: IconButton(
+                                                              icon: const Icon(
+                                                                Icons.close,
+                                                              ),
+                                                              iconSize: 25,
+                                                              color:
+                                                                  Colors.white,
+                                                              splashColor:
+                                                                  Colors.green,
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )),
+                                                  const Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 25)),
+                                                  Expanded(
+                                                      flex: 5,
+                                                      child: BlocProvider(
+                                                        create: (context) =>
+                                                            ViewPondsBloc(),
+                                                        child: BlocListener<
+                                                                ViewPondsBloc,
+                                                                RatePondsState>(
+                                                            listener: (context,
+                                                                RatePondsState
+                                                                    state) {
+                                                              if (state
+                                                                  is RatingResponse) {
+                                                                // Navigate to home page
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    duration: const Duration(
+                                                                        seconds:
+                                                                            5),
+                                                                    content:
+                                                                        Text(
+                                                                      state
+                                                                          .message,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              20,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          color: state.success
+                                                                              ? Colors.white
+                                                                              : Colors.red),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            },
+                                                            child:
+                                                                FormConnector(
+                                                              pondId: widget
+                                                                  .data.id!,
+                                                            )),
+                                                      )),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
                                 icon: const Icon(Icons.star_rate),
                                 label: const Text("Rate Pond"),
                                 style: ElevatedButton.styleFrom(
@@ -239,21 +399,182 @@ class _ViewPondCardState extends State<ViewPondCard> {
                         )
                       : Center(
                           child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.email),
-                            label: const Text("Contact me"),
-                            style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ))
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SimpleDialog(
+                                          backgroundColor: Colors.blueAccent,
+                                          children: [
+                                            SizedBox(
+                                              width: 0.75 *
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                              height: 0.8 *
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .height,
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                      flex: 1,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(25),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: IconButton(
+                                                              icon: const Icon(
+                                                                Icons.close,
+                                                              ),
+                                                              iconSize: 35,
+                                                              color:
+                                                                  Colors.white,
+                                                              splashColor:
+                                                                  Colors.green,
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )),
+                                                  Expanded(
+                                                      flex: 5,
+                                                      child: Image.network(
+                                                        'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                      )),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                                icon: const Icon(Icons.panorama),
+                                label: const Text("View"),
+                                style: ElevatedButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 15),
+                                ),
+                              )))
                 ],
               ))
         ],
       ),
       color: Colors.lightGreenAccent,
+    );
+  }
+}
+
+class FormConnector extends StatelessWidget {
+  const FormConnector({Key? key, required this.pondId}) : super(key: key);
+  final int pondId;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ViewPondsBloc, RatePondsState>(
+        builder: (context, state) {
+      if (state is RatingPond) {
+        return const Center(
+            child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ));
+      }
+
+      return Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RatingForm(
+          pondId: pondId,
+        ),
+      );
+    });
+  }
+}
+
+class RatingForm extends StatefulWidget {
+  const RatingForm({Key? key, required this.pondId}) : super(key: key);
+  final int pondId;
+
+  @override
+  State<RatingForm> createState() => _RatingFormState();
+}
+
+class _RatingFormState extends State<RatingForm> {
+  String? rating;
+  @override
+  Widget build(BuildContext context) {
+    var screenReader = ScreenReader().screenReader(context);
+    var dropDownPadding = EdgeInsets.symmetric(
+        horizontal: (screenReader.deviceType == DeviceType.desktop
+            ? (screenReader.screenSize == ScreenSize.large ? 15 : 10)
+            : 5));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: BlocBuilder<ViewPondsBloc, RatePondsState>(
+            builder: (context, state) {
+              return Padding(
+                padding: dropDownPadding,
+                child: AppDropdownInput(
+                  hintText: "Please Rate 1-5(Bad to Good)",
+                  options: const ["1", "2", "3", "4", "5"],
+                  value: rating,
+                  onChanged: (value) {
+                    setState(() {
+                      rating = value as String?;
+                      context
+                          .read<ViewPondsBloc>()
+                          .add(UpdatePondRating(rating: rating!));
+                    });
+                  },
+                  getLabel: (String value) => value,
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+            child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: BlocBuilder<ViewPondsBloc, RatePondsState>(
+                  buildWhen: (previous, current) =>
+                      previous.status != current.status,
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 20),
+                        maximumSize: const Size(100, 20),
+                      ),
+                      onPressed: state.status.isValidated
+                          ? () => context
+                              .read<ViewPondsBloc>()
+                              .add(RatePond(pondId: widget.pondId))
+                          : null,
+                      child: const Text(
+                        'Rate',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                )))
+      ],
     );
   }
 }

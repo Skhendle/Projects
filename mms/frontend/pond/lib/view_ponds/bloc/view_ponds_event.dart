@@ -7,8 +7,8 @@ abstract class RatePondEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class UodatePondRating extends RatePondEvent {
-  const UodatePondRating({required this.rating});
+class UpdatePondRating extends RatePondEvent {
+  const UpdatePondRating({required this.rating});
   final String rating;
 
 

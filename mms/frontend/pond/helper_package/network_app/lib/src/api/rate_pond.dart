@@ -6,7 +6,7 @@ import 'package:network_app/src/constants.dart';
 import 'get_pond_records.dart';
 
 class RatePondAPI {
-  Future<PondModels> getRecords(int pondId, String rating) async {
+  Future<String> getRecords(int pondId, String rating) async {
     var inputData = {
       'id': pondId,
       'rating': rating,
@@ -19,13 +19,9 @@ class RatePondAPI {
 
     var response = jsonDecode(request.body);
 
-    if (request.statusCode == 200) {
-      PondModels data = PondModels(
-          id: response['id'],
-          created: response['created'],
-          description: response['description'],
-          rating: response['rating']);
-      return data;
+    if (request.statusCode == 201) {
+
+      return "Rond Rated";
     } else {
       throw (response);
     }

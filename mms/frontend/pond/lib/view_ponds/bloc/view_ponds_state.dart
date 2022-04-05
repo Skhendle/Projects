@@ -2,9 +2,7 @@ part of 'view_ponds_bloc.dart';
 
 class RatePondsState extends Equatable {
   const RatePondsState(
-      {this.rating = const Name.pure(),
-
-      this.status = FormzStatus.pure});
+      {this.rating = const Name.pure(), this.status = FormzStatus.pure});
 
   final Name rating;
 
@@ -20,7 +18,7 @@ class RatePondsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [rating, status];
+  List<Object> get props => [rating];
 }
 
 class RatingResponse extends RatePondsState {

@@ -16,9 +16,20 @@ Implemented frontend with Flutter, application works for web and mobile(Tested o
 Application has three pages:
 ### Landing Page
 Functionality:
-    [x] User can upload an image
+    [x] User can select an image to upload
     [x] User can view image uploads
+### Upload Page
+Functionality:
+    [x] User can view uploaded image
+    [x] User must select decsription of image to be uplaoded
+    [x] User can post upload
     
+### View Uploads Page
+Functionality:
+    [x] User can view uploaded images with timestamp, description and rating(if available)
+    [x] User can rate an unrated upload
+    [x] User can view upload in dialog
+
     ![image](./landingPage.PNG)
 
     ![image](./uploadImage.PNG)

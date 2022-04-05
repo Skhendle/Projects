@@ -119,7 +119,9 @@ class _ViewPondsWidgetState extends State<ViewPondsWidget> {
                           return Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 10, 5, 15, 5),
-                            child: ViewPondCard(data: snapshot.data[i]),
+                            child: ViewPondCard(
+                                data: snapshot
+                                    .data[snapshot.data.length - i - 1]),
                           );
                         },
                       )),
@@ -146,335 +148,331 @@ class ViewPondCard extends StatefulWidget {
 class _ViewPondCardState extends State<ViewPondCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      width: 50,
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Image.network(
-                'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}'),
-          ),
-          Expanded(
-              flex: 3,
-              child: Column(
-                children: [
-                  Expanded(
+    var screenReader = ScreenReader().screenReader(context);
+    List<Widget> view = [
+      Expanded(
+        flex: 5,
+        child: Image.network(
+            'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}'),
+      ),
+      Expanded(
+          flex: 3,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                  child: Text(
+                'Description: ${widget.data.description!}',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              )),
+              // Text(data.rating!),
+              (widget.data.rating == null)
+                  ? const SizedBox.shrink()
+                  : Expanded(
                       child: Text(
-                    'Description: ${widget.data.description!}',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  )),
-                  // Text(data.rating!),
-                  (widget.data.rating == null)
-                      ? const SizedBox.shrink()
-                      : Expanded(
-                          child: Text(
-                          'Rating: ${widget.data.rating!}/5',
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        )),
-
-                  Expanded(
-                    child: Text(
-                      'Uploaded: ${timeago.format(widget.data.created!)}',
-                      style: const TextStyle(color: Colors.black, fontSize: 24),
+                      'Rating: ${widget.data.rating!}/5',
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
-                    ),
-                  ),
+                    )),
 
-                  Expanded(
-                    child: Text(
-                      'Timestamp: ${widget.data.created.toString()}',
-                      style: const TextStyle(color: Colors.black, fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+              Expanded(
+                child: Text(
+                  'Uploaded: ${timeago.format(widget.data.created!)}',
+                  style: const TextStyle(color: Colors.black, fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
 
-                  (widget.data.rating == null)
-                      ? Row(
-                          children: [
-                            Expanded(
-                                child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          backgroundColor: Colors.blueAccent,
-                                          children: [
-                                            SizedBox(
-                                              width: 80,
-                                              height: 250,
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(15),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: IconButton(
-                                                              icon: const Icon(
-                                                                Icons.close,
-                                                              ),
-                                                              iconSize: 25,
-                                                              color:
-                                                                  Colors.white,
-                                                              splashColor:
-                                                                  Colors.green,
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                  const Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 25)),
-                                                  Expanded(
-                                                      flex: 5,
-                                                      child: BlocProvider(
-                                                        create: (context) =>
-                                                            ViewPondsBloc(),
-                                                        child: BlocListener<
-                                                                ViewPondsBloc,
-                                                                RatePondsState>(
-                                                            listener: (context,
-                                                                RatePondsState
-                                                                    state) {
-                                                              if (state
-                                                                  is RatingResponse) {
-                                                                // Navigate to home page
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  SnackBar(
-                                                                    duration: const Duration(
+              Expanded(
+                child: Text(
+                  'Timestamp: ${widget.data.created.toString()}',
+                  style: const TextStyle(color: Colors.black, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+              (widget.data.rating == null)
+                  ? Row(
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SimpleDialog(
+                                      backgroundColor: Colors.blueAccent,
+                                      children: [
+                                        SizedBox(
+                                          width: 80,
+                                          height: 250,
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                            Icons.close,
+                                                          ),
+                                                          iconSize: 25,
+                                                          color: Colors.white,
+                                                          splashColor:
+                                                              Colors.green,
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                              const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 25)),
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: BlocProvider(
+                                                    create: (context) =>
+                                                        ViewPondsBloc(),
+                                                    child: BlocListener<
+                                                            ViewPondsBloc,
+                                                            RatePondsState>(
+                                                        listener: (context,
+                                                            RatePondsState
+                                                                state) {
+                                                          if (state
+                                                              is RatingResponse) {
+                                                            // Navigate to home page
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                duration:
+                                                                    const Duration(
                                                                         seconds:
                                                                             5),
-                                                                    content:
-                                                                        Text(
-                                                                      state
-                                                                          .message,
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              20,
-                                                                          fontWeight: FontWeight
+                                                                content: Text(
+                                                                  state.message,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20,
+                                                                      fontWeight:
+                                                                          FontWeight
                                                                               .bold,
-                                                                          color: state.success
-                                                                              ? Colors.white
-                                                                              : Colors.red),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                                Navigator.pop(
-                                                                    context);
-                                                              }
-                                                            },
-                                                            child:
-                                                                FormConnector(
-                                                              pondId: widget
-                                                                  .data.id!,
-                                                            )),
-                                                      )),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.star_rate),
-                                label: const Text("Rate Pond"),
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          backgroundColor: Colors.blueAccent,
-                                          children: [
-                                            SizedBox(
-                                              width: 0.75 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                              height: 0.8 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height,
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(25),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: IconButton(
-                                                              icon: const Icon(
-                                                                Icons.close,
+                                                                      color: state.success
+                                                                          ? Colors
+                                                                              .white
+                                                                          : Colors
+                                                                              .red),
+                                                                ),
                                                               ),
-                                                              iconSize: 35,
-                                                              color:
-                                                                  Colors.white,
-                                                              splashColor:
-                                                                  Colors.green,
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                  Expanded(
-                                                      flex: 5,
-                                                      child: Image.network(
-                                                        'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                      )),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.panorama),
-                                label: const Text("View"),
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ))
-                          ],
-                        )
-                      : Center(
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          backgroundColor: Colors.blueAccent,
-                                          children: [
-                                            SizedBox(
-                                              width: 0.75 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                              height: 0.8 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height,
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(25),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: IconButton(
-                                                              icon: const Icon(
-                                                                Icons.close,
-                                                              ),
-                                                              iconSize: 35,
-                                                              color:
-                                                                  Colors.white,
-                                                              splashColor:
-                                                                  Colors.green,
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                  Expanded(
-                                                      flex: 5,
-                                                      child: Image.network(
-                                                        'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                      )),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.panorama),
-                                label: const Text("View"),
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 15),
-                                ),
-                              )))
-                ],
-              ))
-        ],
-      ),
+                                                            );
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        },
+                                                        child: FormConnector(
+                                                          pondId:
+                                                              widget.data.id!,
+                                                        )),
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  });
+                            },
+                            icon: const Icon(Icons.star_rate),
+                            label: const Text("Rate Pond"),
+                            style: ElevatedButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SimpleDialog(
+                                      backgroundColor: Colors.blueAccent,
+                                      children: [
+                                        SizedBox(
+                                          width: 0.75 *
+                                              MediaQuery.of(context).size.width,
+                                          height: 0.8 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                            Icons.close,
+                                                          ),
+                                                          iconSize: 35,
+                                                          color: Colors.white,
+                                                          splashColor:
+                                                              Colors.green,
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Image.network(
+                                                    'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  });
+                            },
+                            icon: const Icon(Icons.panorama),
+                            label: const Text("View"),
+                            style: ElevatedButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ))
+                      ],
+                    )
+                  : Center(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SimpleDialog(
+                                      backgroundColor: Colors.blueAccent,
+                                      children: [
+                                        SizedBox(
+                                          width: 0.75 *
+                                              MediaQuery.of(context).size.width,
+                                          height: 0.8 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(25),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                            Icons.close,
+                                                          ),
+                                                          iconSize: 35,
+                                                          color: Colors.white,
+                                                          splashColor:
+                                                              Colors.green,
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Image.network(
+                                                    'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  });
+                            },
+                            icon: const Icon(Icons.panorama),
+                            label: const Text("View"),
+                            style: ElevatedButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 15),
+                            ),
+                          )))
+            ],
+          ))
+    ];
+
+    return Container(
+      height: screenReader.deviceType == DeviceType.desktop ? 300 : 600,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: screenReader.deviceType == DeviceType.desktop
+          ? Row(
+              children: view,
+            )
+          : Column(
+              children: view,
+            ),
       color: Colors.lightGreenAccent,
     );
   }

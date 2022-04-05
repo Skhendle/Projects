@@ -22,31 +22,25 @@ def convertToBinaryData(filename):
 def add_pond_records():
     """Create a user via query string parameters."""
     data = json.loads(request.data)
-    response = make_response()
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Content-Type'] = 'application/json'
 
     image = Image.open(io.BytesIO(bytes(data['list'])), formats=[data['fileName'].split('.')[1]])
     image.save(data['fileName'])
+    tempPath = str(os.getcwd())+'/'+data['fileName']
     record = PondEntries(
             created = dt.now(),
             description = data['description'],
-            photo = convertToBinaryData(str(os.getcwd())+'/'+data['fileName']),
+            photo = convertToBinaryData(tempPath),
             photo_type = data['fileName'].split('.')[1]
         )
     try:
         db.session.add(record)
         db.session.commit()
-        print(os.path.exists(str(os.getcwd())+'/'+data['fileName']))
-        if os.path.exists(str(os.getcwd())+'/'+data['fileName']):
-            os.remove(str(os.getcwd())+'/'+data['fileName'])
-        response.status_code = 201
-        response.response =  jsonify('Image Successfully Updated')
-        return response
+        if os.path.exists(tempPath):
+            os.remove(tempPath)
+
+        return make_response(jsonify('Image Upload Successful'),201)
     except Exception as e:
-        response.status_code = 400
-        response.response =  jsonify('Image Successfully Updated')
-        return response
+        return make_response(jsonify('Image Upload Unsuccessful'),400)
 
 
 

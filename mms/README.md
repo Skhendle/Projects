@@ -10,7 +10,7 @@ $ python algorithm.py
 ## Backend
 Implemented backend with python Flask as specified in the requirements with a MySQL database.
 Majority of the problems logic is implemeted in the backend folder.
-Source code located in the backend folder with a README file for running application.
+Source code located in the backend folder with a README file for running the application.
 ## Frontend
 Implemented frontend with Flutter, application works for web and mobile(Tested on android, likely to work for iOS too).
 Application has three pages:

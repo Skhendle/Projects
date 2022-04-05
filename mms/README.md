@@ -13,6 +13,7 @@ Majority of the problems logic is implemeted in the backend folder.
 Source code located in the backend folder with a README file for running the application.
 ## Frontend
 Implemented frontend with Flutter, application works for web and mobile(Tested on android, likely to work for iOS too).
+Source code located in the front-end folder.
 Application has three pages:
 ### Landing Page
 

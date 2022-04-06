@@ -1,9 +1,6 @@
 import requests, json
 from .models import CountriesCovidData, db
-from.data_points import data
-# TODO:
-# 1. checkLocalData should be a separate function
-# 2.  Implement
+# from.data_points import data
 
 
 class DataRepository:
@@ -15,16 +12,13 @@ class DataRepository:
         return False
 
     def fetchData(self):
-        # get recent data
-        # url = "https://covid-api.mmediagroup.fr/v1/cases"
-        # request = requests.get(url)
-        # data = json.loads(request.content)
-        # data = data
+        # get recent data from url and store the data in Postgress
+        url = "https://covid-api.mmediagroup.fr/v1/cases"
+        request = requests.get(url)
+        data = json.loads(request.content)
         data_objects = []
         
         try:
-            
-
             for key, value in data.items():
                 data_objects.append(
                     CountriesCovidData(
@@ -39,7 +33,6 @@ class DataRepository:
             db.session.close()
             return 'Data Cached'
         except Exception as e:
-            print(str(e))
-            return 'Data Not Cached, '+str(e)
+            return 'Data Not Cached, '
 
 

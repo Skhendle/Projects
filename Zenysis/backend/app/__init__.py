@@ -2,8 +2,6 @@ from distutils.log import debug
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-# from ddtrace import patch_all
-
 
 db = SQLAlchemy()
 # patch_all()

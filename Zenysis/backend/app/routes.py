@@ -7,7 +7,7 @@ from .data_caching import DataRepository
 # TODO:
 # Return The list of countries with number of data points available
 @app.route("/")
-def home():
+def available_places():
     return make_response('Welcome', 201)
 
 # TODO:
@@ -26,8 +26,8 @@ def get_country_data():
 # 1. Get data for the selected place
 # Based on country and place name 
 # request shouild be 'get_place?country_name=""&get_place=""'
-@app.route("/get_place", methods=["GET"])
-def available_places():
+@app.route("/place_data", methods=["GET"])
+def get_place_data():
     data_repo = DataRepository()
     if data_repo.checkLocalData():
         return make_response('Data is cached', 201)

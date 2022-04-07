@@ -4,7 +4,7 @@ from flask import make_response, request, jsonify, send_file
 from .models import CountriesCovidData, db
 from .data_caching import DataRepository
 
-
+# TODO:
 # Return The list of countries with number of data points available
 @app.route("/")
 def home():
@@ -25,6 +25,7 @@ def get_country_data():
 # TODO:
 # 1. Get data for the selected place
 # Based on country and place name 
+# request shouild be 'get_place?country_name=""&get_place=""'
 @app.route("/get_place", methods=["GET"])
 def available_places():
     data_repo = DataRepository()

@@ -67,7 +67,8 @@ def get_pond_records():
         print(str(e))
         return make_response(str(e), 400)
 
-
+# TODO: send back a byte array instead of creating an image then sending it
+# Or check if image exists or not in the static folder
 # request shouild be 'pond_photo?pond_id=1'
 @app.route("/pond_photo", methods=["GET"])
 def get_pond_photo():

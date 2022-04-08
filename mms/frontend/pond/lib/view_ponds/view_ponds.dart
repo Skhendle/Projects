@@ -153,7 +153,7 @@ class _ViewPondCardState extends State<ViewPondCard> {
       Expanded(
         flex: 5,
         child: Image.network(
-            'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}'),
+            'https://ce9c-197-229-152-164.ngrok.io/pond_photo?pond_id=${widget.data.id!}'),
       ),
       Expanded(
           flex: 3,
@@ -369,7 +369,7 @@ class _ViewPondCardState extends State<ViewPondCard> {
                                               Expanded(
                                                   flex: 5,
                                                   child: Image.network(
-                                                    'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
+                                                    'https://ce9c-197-229-152-164.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
                                                     width: double.infinity,
                                                     height: double.infinity,
                                                   )),
@@ -441,7 +441,7 @@ class _ViewPondCardState extends State<ViewPondCard> {
                                               Expanded(
                                                   flex: 5,
                                                   child: Image.network(
-                                                    'https://977a-197-184-172-160.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
+                                                    'https://ce9c-197-229-152-164.ngrok.io/pond_photo?pond_id=${widget.data.id!}',
                                                     width: double.infinity,
                                                     height: double.infinity,
                                                   )),

@@ -7,8 +7,12 @@ from .data_caching import DataRepository
 # TODO:
 # Return The list of countries with number of data points available
 @app.route("/")
-def available_places():
-    return make_response('Welcome', 201)
+def get_available_countries():
+    data_repository = DataRepository()
+    try:
+        return make_response(jsonify(data_repository.fetchAvailableCountries()),200)
+    except Exception as e:
+        return make_response('Invalid Request', 400)
 
 # TODO:
 # Extend route to allow countryName input
@@ -19,7 +23,7 @@ def get_country_data():
     if data_repo.checkLocalData():
             return make_response('Data is cached', 201)
 
-    data_repo.fetchData()
+    data_repo.fetchDataFromSource()
     return make_response('Data is not cached', 400)
 
 # TODO:

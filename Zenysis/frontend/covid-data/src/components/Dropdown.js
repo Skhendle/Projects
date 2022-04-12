@@ -3,7 +3,7 @@ import axios from 'axios'
 
 function Dropdown({countries, onChangeCountry}){
   return (
-    <div className='header'>
+    <div className='header btn'>
        {/* <select onChange={}></select> */}
         <select onChange={(e) => onChangeCountry(e.target.value)}>
         {

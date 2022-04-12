@@ -10,7 +10,3 @@ class CountriesCovidData(db.Model):
     country_name = db.Column(db.String(1024), index=False, unique=True, nullable=True)
     available_data_points = db.Column(db.Integer, index=False, unique=False, nullable=True)
     data = db.Column(JSON)
-
-
-    def __repr__(self):
-        return "<Pond {}>".format(self.description)

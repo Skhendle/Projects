@@ -1,6 +1,7 @@
 import requests, json
 from .models import CountriesCovidData 
 from . import db
+import json
 # from.data_points import data
 
 
@@ -32,9 +33,9 @@ class DataRepository:
             db.session.bulk_save_objects(data_objects)
             db.session.commit()
             db.session.close()
-            return 'Data Cached'
+        
         except Exception as e:
-            return 'Data Not Cached, '
+            raise e
 
     def fetchAvailableCountries(self):
         data = []
@@ -51,39 +52,46 @@ class DataRepository:
                 })
         except Exception as e:
             raise e
+        finally:
+            db.session.close()
+            pass
 
         return data
 
-    def fetchCountryData(self,id):
-        data = []
+    def fetchCountryData(self,id:int):
+        response = None
         try:
             if self.__checkLocalData() == False:
                 self.__fetchDataFromSource()
 
-            items = db.session.query(CountriesCovidData).filter(
+            data_obj = db.session.query(CountriesCovidData).filter(
                 CountriesCovidData.id == id
             ).first()
-            data.append(items)
+            item =  json.loads(data_obj.data)
+            response = item['All']
             
         except Exception as e:
             raise e
+        finally:
+            db.session.close()
 
-        return data
+        return response
 
 
-    def fetchPlaceData(self, country_id, place_name):
-        data = []
+    def fetchPlaceData(self, country_id:int, place_name:str):
+        response = None
         try:
             if self.__checkLocalData() == False:
                 self.__fetchDataFromSource()
             
-            items = db.session.query(CountriesCovidData).filter(
+            data_obj = db.session.query(CountriesCovidData).filter(
                 CountriesCovidData.id == id
             ).first()
-            print(items)
-
-            data.append(items)
+            item =  json.loads(data_obj.data)
+            response.append(item[f'{place_name}'])
         except Exception as e:
             raise e
+        finally:
+            db.session.close()
 
-        return data
+        return response

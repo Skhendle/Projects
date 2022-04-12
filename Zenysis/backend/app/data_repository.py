@@ -85,11 +85,12 @@ class DataRepository:
                 self.__fetchDataFromSource()
             
             data_obj = db.session.query(CountriesCovidData).filter(
-                CountriesCovidData.id == id
+                CountriesCovidData.id == country_id
             ).first()
             item =  json.loads(data_obj.data)
-            response.append(item[f'{place_name}'])
+            response = item.get(place_name)
         except Exception as e:
+            print(type(e))
             raise e
         finally:
             db.session.close()

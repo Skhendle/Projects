@@ -1,6 +1,7 @@
 version: '3.9'
 
 services:
+
   pythonapp:
     container_name: pythonapp
     image: pythonapp
@@ -11,7 +12,7 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
     depends_on:
       - db
-  
+
   db:
     container_name: db
     image: postgres:12
@@ -23,6 +24,7 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+
 
 
 volumes:

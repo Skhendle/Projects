@@ -24,7 +24,8 @@ class Config(object):
         DB_NAME=os.environ.get("DB_NAME")
 
         # print(str(f"postgresql+pg8000://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"))
-        SQLALCHEMY_DATABASE_URI = str(f"postgresql+pg8000://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}")
+        # SQLALCHEMY_DATABASE_URI = str(f"postgresql+pg8000://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}")
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = True

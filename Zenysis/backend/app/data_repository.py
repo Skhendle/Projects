@@ -77,6 +77,27 @@ class DataRepository:
 
         return response
 
+    def fetchCountryPlaces(self,country_id:int):
+        response = None
+        try:
+            if self.__checkLocalData() == False:
+                self.__fetchDataFromSource()
+
+            data_obj = db.session.query(CountriesCovidData).filter(
+                CountriesCovidData.id == country_id
+            ).first()
+            item =  json.loads(data_obj.data)
+            
+            response = [key for key in item.keys()]
+            response.remove("All")
+            
+        except Exception as e:
+            raise e
+        finally:
+            db.session.close()
+
+        return response
+
 
     def fetchPlaceData(self, country_id:int, place_name:str):
         response = None

@@ -28,6 +28,21 @@ def get_country_data():
         return make_response('Invalid Request', 400)
 
 
+# Based on id as input
+# request input :'/get_available_places?id=1'
+@app.route("/get_available_places", methods=["GET"])
+def get_available_places():
+    args = request.args
+    data_repository = DataRepository()
+    try:
+        id = args.get("id", default="", type=int)
+        data =  data_repository.fetchCountryPlaces(country_id=id)
+        return make_response(jsonify(data),200)
+    except Exception as e:
+        
+        return make_response('Invalid Request', 400)
+
+
 # Based on country id and place name as input 
 # request should be '/get_place_data?country_id=10&place_name=""'
 @app.route("/get_place_data", methods=["GET"])

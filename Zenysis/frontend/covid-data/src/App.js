@@ -35,7 +35,6 @@ function App() {
        countryId === -1 ? null : (
           <div className="container">
           <Dropdown countries = {countries} onChangeCountry={onChangeCountry}/>
-          <h3>{countryId}</h3>
           <SelectedCountry countryId={countryId} /> 
           </div>
          )

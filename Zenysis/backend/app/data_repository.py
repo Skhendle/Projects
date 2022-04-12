@@ -1,17 +1,18 @@
 import requests, json
-from .models import CountriesCovidData, db
+from .models import CountriesCovidData 
+from . import db
 # from.data_points import data
 
 
 class DataRepository:
-    def checkLocalData(self):
-        " Checks if there' is cached data"
+    def __checkLocalData(self):
+        " Checks if there's cached data"
         test_data = CountriesCovidData.query.first()
         if test_data:
             return True
         return False
 
-    def fetchDataFromSource(self):
+    def __fetchDataFromSource(self):
         # get recent data from url and store the data in Postgress
         url = "https://covid-api.mmediagroup.fr/v1/cases"
         request = requests.get(url)
@@ -38,6 +39,9 @@ class DataRepository:
     def fetchAvailableCountries(self):
         data = []
         try:
+            if self.__checkLocalData() == False:
+                self.__fetchDataFromSource()
+            
             items = db.session.query(CountriesCovidData).all()
             for item in items:
                 data.append({
@@ -46,26 +50,40 @@ class DataRepository:
                     'available_places': item.available_data_points
                 })
         except Exception as e:
-            print(e)
             raise e
 
         return data
 
-    def fetchCountryData():
+    def fetchCountryData(self,id):
         data = []
         try:
-            pass
+            if self.__checkLocalData() == False:
+                self.__fetchDataFromSource()
+
+            items = db.session.query(CountriesCovidData).filter(
+                CountriesCovidData.id == id
+            ).first()
+            data.append(items)
+            
         except Exception as e:
-            pass
+            raise e
 
         return data
 
 
-    def fetchPlaceData():
+    def fetchPlaceData(self, country_id, place_name):
         data = []
         try:
-            pass
+            if self.__checkLocalData() == False:
+                self.__fetchDataFromSource()
+            
+            items = db.session.query(CountriesCovidData).filter(
+                CountriesCovidData.id == id
+            ).first()
+            print(items)
+
+            data.append(items)
         except Exception as e:
-            pass
+            raise e
 
         return data

@@ -13,8 +13,8 @@ COPY . .
 # RUN python -m venv venv
 # RUN . venv/bin/activate
 RUN pip install -r requirements.txt
+EXPOSE 5000 5000
 
+# ENTRYPOINT [ "python" ]
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "main.py" ]
+CMD [ "python", "main.py" ]

@@ -19,6 +19,6 @@ $ chmod u+x runapp.sh
 
 # Run application
 $ ./runapp.sh
-$ docker image build -t flask_docker .
-$ docker run -p 5000:6000 -d flask_docker
+$ docker image build -t pythonapp .
+$ docker run -p 5000:5000 -d pythonapp
 ```

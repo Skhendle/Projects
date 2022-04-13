@@ -3,6 +3,7 @@ import Dropdown from './components/Dropdown'
 import { SelectedCountry } from "./components/SelectedCountry";
 
 import axios from 'axios'
+import { DeathToll } from "./components/DeathTolls";
 
 function App() {
   const [countryId, setCountryId] = useState(-1)
@@ -36,6 +37,7 @@ function App() {
           <div className="container">
           <Dropdown countries = {countries} onChangeCountry={onChangeCountry}/>
           <SelectedCountry countryId={countryId} /> 
+          <DeathToll countryId={countryId}/>
           </div>
          )
 

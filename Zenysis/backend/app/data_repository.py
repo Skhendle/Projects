@@ -2,6 +2,7 @@ import requests, json
 from .models import CountriesCovidData 
 from . import db
 import json
+import random
 # from.data_points import data
 
 
@@ -87,16 +88,18 @@ class DataRepository:
                 CountriesCovidData.id == country_id
             ).first()
             item =  json.loads(data_obj.data)
-            
             map_keys = [key for key in item.keys()]
-            response.remove("All")
+            map_keys.remove("All")
+            
             for mapKey in map_keys:
                 response.append({
-                    'name': mapKey,
-                    'deaths': item.get(mapKey)['deaths']
+                    'title': mapKey,
+                    'value': item.get(mapKey)['deaths'],
+                    'color': '#'+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
                 })
             
         except Exception as e:
+
             raise e
         finally:
             db.session.close()

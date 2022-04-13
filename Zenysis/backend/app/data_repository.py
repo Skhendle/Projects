@@ -2,6 +2,7 @@ import requests, json
 from .models import CountriesCovidData 
 from . import db
 import json
+import random
 # from.data_points import data
 
 
@@ -77,6 +78,34 @@ class DataRepository:
 
         return response
 
+    def deathTollData(self,country_id:int):
+        response = []
+        try:
+            if self.__checkLocalData() == False:
+                self.__fetchDataFromSource()
+
+            data_obj = db.session.query(CountriesCovidData).filter(
+                CountriesCovidData.id == country_id
+            ).first()
+            item =  json.loads(data_obj.data)
+            map_keys = [key for key in item.keys()]
+            map_keys.remove("All")
+            
+            for mapKey in map_keys:
+                response.append({
+                    'title': mapKey,
+                    'value': item.get(mapKey)['deaths'],
+                    'color': '#'+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+                })
+            
+        except Exception as e:
+
+            raise e
+        finally:
+            db.session.close()
+
+        return response
+
 
     def fetchPlaceData(self, country_id:int, place_name:str):
         response = None
@@ -90,7 +119,7 @@ class DataRepository:
             item =  json.loads(data_obj.data)
             response = item.get(place_name)
         except Exception as e:
-            print(type(e))
+
             raise e
         finally:
             db.session.close()

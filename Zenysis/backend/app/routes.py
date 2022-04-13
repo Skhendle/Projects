@@ -25,6 +25,22 @@ def get_country_data():
         data =  data_repository.fetchCountryData(id=id)
         return make_response(jsonify(data),200)
     except Exception as e:
+        print(e)
+        return make_response('Invalid Request', 400)
+
+
+# Based on id as input
+# request input :'/get_death_toll?id=1'
+@app.route("/get_death_toll", methods=["GET"])
+def get_death_toll():
+    args = request.args
+    data_repository = DataRepository()
+    try:
+        id = args.get("id", default="", type=int)
+        data =  data_repository.deathTollData(country_id=id)
+        return make_response(jsonify(data),200)
+    except Exception as e:
+        
         return make_response('Invalid Request', 400)
 
 

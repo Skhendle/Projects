@@ -8,11 +8,13 @@ FROM python:3.9
 # COPY ./requirements.txt requirements.txt
 
 WORKDIR /flask-docker
-COPY requirements.txt requirements.txt
+# COPY requirements.txt requirements.txt
 COPY . .
+# RUN python -m venv venv
+# RUN . venv/bin/activate
 RUN pip install -r requirements.txt
+EXPOSE 5000 5000
 
+# ENTRYPOINT [ "python" ]
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "main.py" ]
+CMD [ "python", "main.py" ]

@@ -77,8 +77,8 @@ class DataRepository:
 
         return response
 
-    def fetchCountryPlaces(self,country_id:int):
-        response = None
+    def deathTollData(self,country_id:int):
+        response = []
         try:
             if self.__checkLocalData() == False:
                 self.__fetchDataFromSource()
@@ -88,8 +88,13 @@ class DataRepository:
             ).first()
             item =  json.loads(data_obj.data)
             
-            response = [key for key in item.keys()]
+            map_keys = [key for key in item.keys()]
             response.remove("All")
+            for mapKey in map_keys:
+                response.append({
+                    'name': mapKey,
+                    'deaths': item.get(mapKey)['deaths']
+                })
             
         except Exception as e:
             raise e
@@ -111,7 +116,7 @@ class DataRepository:
             item =  json.loads(data_obj.data)
             response = item.get(place_name)
         except Exception as e:
-            print(type(e))
+
             raise e
         finally:
             db.session.close()

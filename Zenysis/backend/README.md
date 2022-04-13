@@ -21,4 +21,5 @@ $ chmod u+x runapp.sh
 $ ./runapp.sh
 $ docker image build -t pythonapp .
 $ docker run -p 5000:5000 -d pythonapp
+$ docker-compose  up
 ```

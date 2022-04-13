@@ -12,7 +12,7 @@ function App() {
   useEffect(()=>{
       console.log(countryId)
       if(countryId === -1){
-          axios.get('https://b40d-197-229-148-158.ngrok.io/')
+          axios.get('https://971f-197-229-136-149.ngrok.io/')
         .then(res =>{
             return res.data
         }).then(data => {

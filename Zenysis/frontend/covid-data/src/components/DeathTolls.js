@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 
-export const SelectedCountry = (props) => {
+export const DeathToll = (props) => {
     const [countryData, setCountryData] = useState(null)
 
     useEffect(()=>{

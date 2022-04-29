@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import { Addtask } from './components/Addtask';
 import Tasks from "./components/Tasks"
 function App() {
+  const [showAddTask, setshowAddTask] = useState(false)
   const [tasks, setTasks] = useState(
     [
           {
@@ -44,6 +45,14 @@ function App() {
         ]
   )
 
+
+  const addTask = (task) => {
+    // 
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTask ={id, ...task}
+    setTasks([newTask,...tasks])
+  }
+
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id))
   }
@@ -53,8 +62,12 @@ function App() {
   }
   return (
     <div className="container">
-      <Header/>
-      <Addtask/>
+      <Header 
+        title={'Task Tracker App'}
+        onAdd={() => setshowAddTask(!showAddTask)}
+        showAdd={showAddTask}
+      />
+      {showAddTask && <Addtask onAdd={addTask}/>}
       {tasks.length > 0 ?(
         <Tasks tasks={tasks} onDelete ={deleteTask} onToggle={toggleReminder}/>
       ):'No Task To Show'}
